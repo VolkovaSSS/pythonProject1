@@ -13,13 +13,19 @@ def mask_account_card(account_card: str) -> str:
     """Маскирует номер карты или счета"""
 
     number_len = count_number_len(account_card)
-    if number_len ==0:
-        return('Неверный номер карты (счета)')
     account_card_number = (account_card[-number_len:])
     if number_len == 16:
         return account_card.replace(account_card_number, masks.get_mask_card_number(int(account_card_number)))
-    else:
+    elif number_len == 20:
         return account_card.replace(account_card_number, masks.get_mask_account(int(account_card_number)))
+    else:
+        return ('Неверный номер карты (счета)')
 
 
-print(mask_account_card("VisaPlatinum7000792289606361"))
+def get_date(date_full: str) -> str:
+    """Преобразует дату в формат ДД.ММ.ГГГГ"""
+    return date_full[5:7] + '.' + date_full[8:10] + '.' + date_full[:4]
+
+
+print(get_date("2024-03-11T02:26:18.671407"))
+print(mask_account_card("Visa Platinum 70007922896063615555"))
