@@ -25,4 +25,4 @@ def mask_account_card(account_card: str) -> str:
 
 def get_date(date_full: str) -> str:
     """Преобразует дату в формат ДД.ММ.ГГГГ"""
-    return date_full[5:7] + "." + date_full[8:10] + "." + date_full[:4]
+    return date_full[8:10] + "." + date_full[5:7] + "." + date_full[:4]
