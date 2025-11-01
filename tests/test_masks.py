@@ -33,6 +33,6 @@ def test_get_mask_account_wrong_type(account_num):
 
 
 @pytest.mark.parametrize("account_num", [(1234), (123456789), (0)])
-def test_get_mask_account_wrong_type(account_num):
+def test_get_mask_account_wrong_value(account_num):
     with pytest.raises(ValueError):
         get_mask_account(account_num)
