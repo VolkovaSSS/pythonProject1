@@ -1,5 +1,5 @@
 import pytest
-from src.generators import filter_by_currency, transaction_descriptions
+from src.generators import filter_by_currency, transaction_descriptions, card_number_generator
 
 
 @pytest.fixture
@@ -90,3 +90,8 @@ def test_transaction_descriptions(input_transactions):
     assert str(next(text_descriptions)) == "Перевод со счета на счет"
     assert str(next(text_descriptions)) == "Перевод со счета на счет"
     assert str(next(text_descriptions)) == ""
+
+
+def test_card_number_generator():
+    for card_number in card_number_generator(1111222233334444, 1111222233334448):
+        print(card_number)
