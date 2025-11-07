@@ -1,5 +1,6 @@
 import pytest
-from src.generators import filter_by_currency, transaction_descriptions, card_number_generator
+
+from src.generators import card_number_generator, filter_by_currency, transaction_descriptions
 
 
 @pytest.fixture
@@ -90,11 +91,9 @@ def test_transaction_descriptions_empty():
         next(text_descriptions)
 
 
-
 def test_transaction_descriptions_wrong_type():
     with pytest.raises(TypeError):
         text_descriptions = transaction_descriptions()
-
 
 
 @pytest.mark.parametrize(
@@ -103,7 +102,7 @@ def test_transaction_descriptions_wrong_type():
         (
             1111222233334444,
             1111222233334447,
-            ['1111 2222 3333 4444', '1111 2222 3333 4445', '1111 2222 3333 4446', '1111 2222 3333 4447'],
+            ["1111 2222 3333 4444", "1111 2222 3333 4445", "1111 2222 3333 4446", "1111 2222 3333 4447"],
         ),
         (1, 1, ["0000 0000 0000 0001"]),
     ],
@@ -116,9 +115,9 @@ def test_card_number_generator(first, last, expected):
 @pytest.mark.parametrize("first, last", [(0, 0), (99999999999999997, 99999999999999999), (-1, 4)])
 def test_card_number_generator_wrong_value(first, last):
     with pytest.raises(ValueError):
-        it = list(card_number_generator(first, last))
+        list(card_number_generator(first, last))
 
 
 def test_card_number_generator_wrong_type():
     with pytest.raises(TypeError):
-        it = list(card_number_generator('5', '1'))
+        list(card_number_generator("5", "1"))

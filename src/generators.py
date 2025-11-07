@@ -25,7 +25,7 @@ def transaction_descriptions(transacts: list[dict]) -> Iterator:
             yield transaction.get("description", "")
 
 
-def card_number_generator(first_num, last_num) -> Iterator:
+def card_number_generator(first_num: int, last_num: int) -> Iterator:
     """Генерирует номера карт"""
 
     if not all([isinstance(first_num, int), isinstance(last_num, int)]):
