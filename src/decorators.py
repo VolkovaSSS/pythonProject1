@@ -1,4 +1,3 @@
-import datetime
 from functools import wraps
 from typing import Any, Callable, Optional
 
@@ -11,14 +10,13 @@ def log(filename: Optional[str] = None) -> Callable[[Callable[..., Any]], Callab
         @wraps(func)
         def wrapper(*args, **kwargs):
             success = False
-            time_start = datetime.datetime.now()
             try:
                 result = func(*args, **kwargs)
-                log_text = f"{func.__name__} start {time_start} - ok"
+                log_text = f"{func.__name__} ok"
                 success = True
             except Exception as except_message:
                 error_text = str(except_message)
-                log_text = f"{func.__name__} start {time_start} error: {error_text} inputs:{args}, {kwargs}"
+                log_text = f"{func.__name__} error: {error_text} Inputs:{args}, {kwargs}"
 
             if filename:
                 with open(filename, "a", encoding="utf-8") as file:

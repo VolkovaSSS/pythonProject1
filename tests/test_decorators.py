@@ -12,7 +12,7 @@ def test_log_console(capsys):
 
     division_ab(10.0, 4)
     captured = capsys.readouterr()
-    assert "division_ab start" in captured.out
+    assert "division_ab ok" in captured.out
 
 
 def test_log_file():
@@ -23,7 +23,7 @@ def test_log_file():
     division_ab(10.0, 4)
     with open("test_log.txt", "r") as file:
         log_text = file.read()
-    assert "division_ab start" in log_text
+    assert "division_ab ok" in log_text
     os.remove("test_log.txt")
 
 
