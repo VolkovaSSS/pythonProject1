@@ -2,14 +2,15 @@ import requests
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+from requests import RequestException
 
 
 def convert_val_sum(trans: dict) -> float:
     """Конвертирует сумму транзакции в рубли"""
 
     code_rub = "RUB"
-    code_val = trans.get('operationAmount',{}).get('currency',{}).get('code',"")
-    amount = trans.get('operationAmount',{}).get('amount',0)
+    code_val = trans.get("operationAmount", {}).get("currency", {}).get("code", "")
+    amount = trans.get("operationAmount", {}).get("amount", 0)
 
     if code_val == code_rub:
         return amount
@@ -22,32 +23,21 @@ def convert_val_sum(trans: dict) -> float:
     url = f"https://api.apilayer.com/exchangerates_data/convert?to={code_rub}&from={code_val}&amount={amount}"
     headers = {"apikey": API_KEY}
     response = requests.get(url, headers=headers)
+    return response.json().get("result", 0.0)
 
-    if response.status_code == 200:
-        aa = response.json()
-        return aa['result']
-    else:
-        print(response.status_code)
-        return 0.0
+    # if response.status_code == 200:
+    #     return response.json().get("result", 0.0)
+    # else:
+    #     raise RequestException(response.status_code)
 
 
 transaction = {
     "id": 41428829,
     "state": "EXECUTED",
     "date": "2019-07-03T18:35:29.512364",
-    "operationAmount": {
-      "amount": "8221.37",
-      "currency": {
-        "name": "USD",
-        "code": "USD"
-      }
-    },
+    "operationAmount": {"amount": "8221.37", "currency": {"name": "USD", "code": "USD"}},
     "description": "Перевод организации",
     "from": "MasterCard 7158300734726758",
-    "to": "Счет 35383033474447895560"
-  }
+    "to": "Счет 35383033474447895560",
+}
 print(convert_val_sum(transaction))
-
-
-
-
