@@ -4,6 +4,7 @@ from typing import Any, Callable, Optional
 
 def log(filename: Optional[str] = None) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
     """Логирование выполнения функции"""
+
     def decorator(
         func: Callable[[Callable[..., Any]], Callable[..., Any]],
     ) -> Callable[[Callable[..., Any]], Callable[..., Any]]:

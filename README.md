@@ -9,6 +9,8 @@
 - src/processing.py - фильтрация операций по состоянию
 - src/generators.py - фильтрация транзакций по валюте и генерация номеров карт
 - src/decorators.py - логирование функций
+- src/utils - считывание json-файла с транзакциями
+- external_api - конвертация суммы транзакции по курсу
 - tests - папка с тестами
 
 ## Установка
@@ -16,6 +18,7 @@
 ```git clone git@github.com:VolkovaSSS/pythonProject1.git```
 - Установите зависимости:
 ```pip install -r requirements.txt```
+- создайте файл .env по шаблону .env.example
 ## Использование
 Для использования нужно запустить файл main.py
 например: python main.py
