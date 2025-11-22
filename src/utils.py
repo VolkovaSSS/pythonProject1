@@ -1,11 +1,11 @@
 import json
-import os
 import logging
+import os
 
-logger = logging.getLogger('utils')
+logger = logging.getLogger("utils")
 logger.setLevel(logging.DEBUG)
-file_handler = logging.FileHandler('../logs/utils.log', 'w', 'utf-8')
-file_formatter = logging.Formatter('%(asctime)s %(name)s %(levelname)s %(message)s')
+file_handler = logging.FileHandler("../logs/utils.log", "w", "utf-8")
+file_formatter = logging.Formatter("%(asctime)s %(name)s %(levelname)s %(message)s")
 file_handler.setFormatter(file_formatter)
 logger.addHandler(file_handler)
 
@@ -14,7 +14,7 @@ def read_transactions_file(data_file: str) -> list:
     """Считывает данные о транзакциях из файла в список словарей"""
 
     if os.path.isfile(data_file):
-        logger.info(f'чтение файла: {data_file}')
+        logger.info(f"чтение файла: {data_file}")
         if os.path.getsize(data_file) == 0:
             message = f"файл {data_file} пустой"
             logger.warning(message)
@@ -29,7 +29,7 @@ def read_transactions_file(data_file: str) -> list:
                     print(message)
                     return []
                 else:
-                    logger.info(f'Получены данные о транзакциях из файла: {data_file}')
+                    logger.info(f"Получены данные о транзакциях из файла: {data_file}")
                     return data_list
             except json.JSONDecodeError:
                 message = f"Ошибка формата файла: {data_file}"
@@ -41,6 +41,3 @@ def read_transactions_file(data_file: str) -> list:
         logger.error(message)
         print(message)
         return []
-
-if __name__ == '__main__':
-    read_transactions_file('../data/operation.json')
