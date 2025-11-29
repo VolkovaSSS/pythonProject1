@@ -1,6 +1,20 @@
 import pytest
 
-from src.processing import filter_by_state, sort_by_date
+from src.processing import filter_by_state, sort_by_date, process_bank_search, process_bank_operations
+
+
+@pytest.fixture
+def trans_test():
+    return [
+        {"id": "650703", "state": "EXECUTED", "description": "Перевод организации"},
+        {"id": "3598919", "state": "EXECUTED", "description": "Перевод с карты на карту"},
+        {"id": "366176", "state": "EXECUTED", "description": "Перевод с карты на карту"},
+        {"id": "5380041", "state": "CANCELED", "description": "Открытие вклада"},
+        {"id": "1962667", "state": "EXECUTED", "description": "Перевод организации"},
+        {},
+        {"id": "5294458", "state": "EXECUTED", "description": "Перевод с карты на карту"},
+        {"id": "5429839", "state": "EXECUTED", "description": "Открытие вклада"},
+    ]
 
 
 @pytest.fixture
@@ -90,3 +104,68 @@ def test_sort_by_date(dicts_test, dicts_date_sorted_desc, dicts_date_sorted_asc,
 
 def test_sort_by_date_default(dicts_test, dicts_date_sorted_desc):
     assert sort_by_date(dicts_test) == dicts_date_sorted_desc
+
+
+@pytest.mark.parametrize(
+    "search_st, expected",
+    [
+        (
+            "Перевод организации",
+            [
+                {"id": "650703", "state": "EXECUTED", "description": "Перевод организации"},
+                {"id": "1962667", "state": "EXECUTED", "description": "Перевод организации"},
+            ],
+        ),
+        (
+            "открытие",
+            [
+                {"id": "5380041", "state": "CANCELED", "description": "Открытие вклада"},
+                {"id": "5429839", "state": "EXECUTED", "description": "Открытие вклада"},
+            ],
+        ),
+        ("Списание", []),
+    ],
+)
+def test_process_bank_search(search_st, expected):
+    test_data = [
+        {"id": "650703", "state": "EXECUTED", "description": "Перевод организации"},
+        {"id": "3598919", "state": "EXECUTED", "description": "Перевод с карты на карту"},
+        {"id": "366176", "state": "EXECUTED", "description": "Перевод с карты на карту"},
+        {"id": "5380041", "state": "CANCELED", "description": "Открытие вклада"},
+        {"id": "1962667", "state": "EXECUTED", "description": "Перевод организации"},
+        {},
+        {"id": "5294458", "state": "EXECUTED", "description": "Перевод с карты на карту"},
+        {"id": "5429839", "state": "EXECUTED", "description": "Открытие вклада"},
+    ]
+
+    assert process_bank_search(test_data, search_st) == expected
+
+
+def test_process_bank_search_wrong_trans():
+    with pytest.raises(TypeError):
+        process_bank_search({"id": "650703", "state": "EXECUTED", "description": "Перевод организации"}, "Перевод")
+
+
+def test_process_bank_search_wrong_search(trans_test):
+    with pytest.raises(TypeError):
+        process_bank_search(trans_test, ["Перевод"])
+
+
+def test_process_bank_operations(trans_test):
+    assert process_bank_operations(trans_test, ["Перевод организации", "Перевод с карты на карту"]) == {
+        "Перевод организации": 2,
+        "Перевод с карты на карту": 3,
+    }
+
+
+def test_process_bank_operations_wrong_trans():
+    with pytest.raises(TypeError):
+        process_bank_operations(
+            {"id": "650703", "state": "EXECUTED", "description": "Перевод организации"},
+            ["Перевод организации", "Перевод с карты на карту"],
+        )
+
+
+def test_process_bank_operations_wrong_cat(trans_test):
+    with pytest.raises(TypeError):
+        process_bank_operations(trans_test, "Перевод организации")
