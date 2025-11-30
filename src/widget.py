@@ -1,3 +1,4 @@
+import pandas as pd
 from src import masks
 
 
@@ -47,3 +48,37 @@ def get_date(date_full: str) -> str:
     if len(yyyy) != 4 or len(mm) != 2 or len(dd) != 2:
         raise ValueError("Неверный формат даты")
     return dd + "." + mm + "." + yyyy
+
+
+def flatten_dict(dic: dict, sep: str = '.') -> dict:
+    """ Преобразует многоуровневый словарь в одноуровневый"""
+    [flat_dict] = pd.json_normalize(dic, sep=sep).to_dict(orient='records')
+    return flat_dict
+
+
+def get_string_for_report(transact: dict) -> str:
+    """ Формирует строку для итогового отчета.
+    Принимает словарь с транзакцией"""
+
+    trans = flatten_dict(transact)
+    number_from = trans.get('from', "")
+    masked_number_from = mask_account_card(number_from) if len(number_from) > 0 else ""
+    number_to = trans.get('to', "")
+    masked_number_to = mask_account_card(number_to) if len(number_to) > 0 else ""
+    if 'operationAmount.amount' in trans:
+        amount = trans['operationAmount.amount']
+        currency = trans.get('operationAmount.currency.name', "")
+    else:
+        amount = trans.get('amount', 0.0)
+        currency = trans.get('currency_name', "")
+
+    return (
+    f"{get_date(transact.get('date', ''))} {transact.get('description')}\n"
+    f"{masked_number_from} - > {masked_number_to}\n"
+    f"Сумма: {amount} {currency}\n"
+)
+
+
+
+
+

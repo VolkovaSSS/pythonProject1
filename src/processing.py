@@ -43,17 +43,3 @@ def process_bank_operations(transactions: list[dict], categories: list) -> dict:
         raise TypeError(message)
     counter_trans = Counter(item.get("description") for item in transactions if item.get("description") in categories)
     return dict(counter_trans)
-
-
-transactios = [
-    {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364", "description": "Перевод"},
-    {"id": 615064595, "date": "2018-10-14T08:21:36.419441", "description": "Перевод"},
-    {"id": 615064591, "state": "CANCELED", "date": "2018-10-14T08:21:33.419441", "description": "Поступление"},
-    {"id": 594226727, "state": "CANCELED", "date": "2018-09-12T21:27:25.241689", "description": "Перевод"},
-    {"id": 534526727, "state": "UNKNOWN", "date": "2018-09-12T21:27:25.241689", "description": "Поступление"},
-    {"id": 939719570, "state": "EXECUTED", "date": "2018-06-30T02:08:58.425572", "description": "Перевод"},
-    {},
-    {"id": 615064592, "state": "CANCELED", "description": "Перевод"},
-    {"id": 615064593, "description": "Списание"},
-]
-print(process_bank_search(transactios, "прих"))

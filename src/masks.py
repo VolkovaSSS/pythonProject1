@@ -17,7 +17,7 @@ def get_mask_card_number(card_number: int) -> str:
         message = "Номер карты должен быть целым числом!"
         logger.error(message)
         raise TypeError(message)
-    card_number_str = str(card_number)
+    card_number_str = f"{card_number:016d}"
     if len(card_number_str) != 16:
         message = "Номер карты должен быть 16 цифр!"
         logger.error(message)
