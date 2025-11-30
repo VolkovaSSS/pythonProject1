@@ -1,7 +1,8 @@
 import csv
-import pandas as pd
 import logging
 from pathlib import Path
+
+import pandas as pd
 
 logger = logging.getLogger("read_trans")
 logger.setLevel(logging.DEBUG)

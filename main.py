@@ -2,10 +2,9 @@ import os
 
 from src.utils import read_transactions_file
 from src.read_trans import read_transactions_csv, read_transactions_excel
-from src.processing import filter_by_state, sort_by_date, process_bank_search, process_bank_operations
+from src.processing import filter_by_state, sort_by_date, process_bank_search
 from src.generators import filter_by_currency
-from src.widget import get_date, mask_account_card, get_string_for_report
-
+from src.widget import get_string_for_report
 
 
 file_json = os.path.join(os.getcwd(), "data", "operations.json")
@@ -42,9 +41,9 @@ def main():
         print("Ошибка! Несуществующий формат:")
         return
 
-    if file_type == 1:
+    if file_type == '1':
         trans_data = read_transactions_file(file_json)
-    elif file_type == 2:
+    elif file_type == '2':
         trans_data = read_transactions_csv(file_csv)
     else:
         trans_data = read_transactions_excel(file_xlsx)
@@ -69,15 +68,15 @@ def main():
         date_order = input("по возрастанию/по убыванию ").strip().lower()
         params['date_descending'] = False if date_order == "по возрастанию" else True
     params['ruble'] = get_answer_yes_no('Выводить только рублевые транзакции? Да/Нет ')
-    params['word_sort'] = get_answer_yes_no('Отфильтровать список транзакций по определенному слову в описании? Да/Нет ')
-    if params['word_sort']:
+    params['word_f'] = get_answer_yes_no('Отфильтровать список транзакций по определенному слову в описании?Да/Нет ')
+    if params['word_f']:
         params['word'] = input("Введите слово для фильтра: ")
 
     if params['date_sort']:
         trans_filtered = sort_by_date(trans_filtered, params['date_descending'])
     if params['ruble']:
         trans_filtered = list(filter_by_currency(trans_filtered, "RUB"))
-    if params['word_sort']:
+    if params['word_f']:
         trans_filtered = process_bank_search(trans_filtered, params['word'])
 
     print("Распечатываю итоговый список транзакций...")

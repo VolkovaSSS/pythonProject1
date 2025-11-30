@@ -12,9 +12,16 @@ def file_data_path():
     return Path(f"{base_dir}/data/operations.json")
 
 
-@patch("builtins.open", new_callable=mock_open, read_data='[{"id": 441945886,"state": "EXECUTED", "operationAmount": {"amount": "31957.58", "currency": {"name": "руб.", "code": "RUB"}} }]')
+@patch(
+    "builtins.open",
+    new_callable=mock_open,
+    read_data='[{"id": 441945886,"state": "EXECUTED", "operationAmount": '
+    '{"amount": "31957.58", "currency": {"name": "руб.", "code": "RUB"}} }]',
+)
 def test_read_transactions_file_correct(mock_data, file_data_path):
-    assert read_transactions_file(file_data_path) == [{"id": 441945886, "state": "EXECUTED", "amount": "31957.58", "currency_name": "руб.", "currency_code": "RUB"}]
+    assert read_transactions_file(file_data_path) == [
+        {"id": 441945886, "state": "EXECUTED", "amount": "31957.58", "currency_name": "руб.", "currency_code": "RUB"}
+    ]
 
 
 @patch("builtins.open", new_callable=mock_open, read_data='{"id": 441945886,"state": "EXECUTED" }')

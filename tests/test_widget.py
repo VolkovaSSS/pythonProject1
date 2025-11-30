@@ -1,5 +1,6 @@
 import pytest
-from src.widget import count_number_len, get_date, mask_account_card, flatten_dict, get_string_for_report
+
+from src.widget import count_number_len, flatten_dict, get_date, get_string_for_report, mask_account_card
 
 
 @pytest.mark.parametrize(
