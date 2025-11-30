@@ -11,7 +11,8 @@ def filter_by_currency(transacts: list[dict], currency: str) -> Iterator:
         for trans in transacts
         if (
             isinstance(trans, dict)
-            and trans.get("operationAmount", {}).get("currency", {}).get("code", {}) == currency
+            and trans.get("currency_code", {}) == currency
+            # and trans.get("operationAmount", {}).get("currency", {}).get("code", {}) == currency
         )
     )
 

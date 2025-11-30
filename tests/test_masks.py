@@ -16,7 +16,7 @@ def test_get_mask_card_number_wrong_type(card_num):
         get_mask_card_number(card_num)
 
 
-@pytest.mark.parametrize("card_num", [(12345), (1111222233334444555)])
+@pytest.mark.parametrize("card_num", [(1234567891012345678), (1111222233334444555)])
 def test_get_mask_card_number_wrong_len(card_num):
     with pytest.raises(ValueError):
         get_mask_card_number(card_num)

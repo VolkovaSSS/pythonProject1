@@ -28,14 +28,14 @@ def main():
 
     print('Привет! Добро пожаловать в программу работы \nс банковскими транзакциями.')
 
-    main_menu = {1: ('1. Получить информацию о транзакциях из JSON-файла', 'JSON'),
-                 2: ('2. Получить информацию о транзакциях из CSV-файла', 'CSV'),
-                 3: ('3. Получить информацию о транзакциях из XLSX-файла', 'XLSX')}
+    main_menu = {'1': ('1. Получить информацию о транзакциях из JSON-файла', 'JSON'),
+                 '2': ('2. Получить информацию о транзакциях из CSV-файла', 'CSV'),
+                 '3': ('3. Получить информацию о транзакциях из XLSX-файла', 'XLSX')}
     print('Выберите необходимый пункт меню:')
     for value in main_menu.values():
         print(value[0])
 
-    file_type = int(input())
+    file_type = input()
     if file_type in main_menu.keys():
         print(f'Для обработки выбран {main_menu[file_type][1]}-файл.')
     else:
@@ -87,14 +87,6 @@ def main():
         print(f"Всего банковских операций в выборке: {len(trans_filtered)}")
         for trans in trans_filtered:
             print(get_string_for_report(trans))
-            # number_from = trans.get('from', "")
-            # masked_number_from = mask_account_card(number_from) if len(number_from) > 0 else ""
-            # number_to = trans.get('to', "")
-            # masked_number_to = mask_account_card(number_to) if len(number_to) > 0 else ""
-            # print(f"{get_date(trans.get('date',''))} {trans.get('description')}")
-            # print(f"{masked_number_from} - > {masked_number_to}")
-            # print(f"Сумма: {trans.get('amount', 0)} {trans.get('currency_name',"")}")
-
 
 
 if __name__ == '__main__':

@@ -1,6 +1,5 @@
 import pytest
-
-from src.widget import count_number_len, get_date, mask_account_card
+from src.widget import count_number_len, get_date, mask_account_card, flatten_dict, get_string_for_report
 
 
 @pytest.mark.parametrize(
@@ -85,3 +84,23 @@ def test_get_date_wrong_type(test_date):
 def test_get_date_wrong_value(test_date):
     with pytest.raises(ValueError):
         get_date(test_date)
+
+
+def test_flatten_dict(json_list):
+    assert flatten_dict(json_list[0]) == {
+        "id": 441945886,
+        "state": "EXECUTED",
+        "date": "2019-08-26T10:50:58.294041",
+        "description": "Перевод организации",
+        "from": "Maestro 1596837868705199",
+        "to": "Счет 64686473678894779589",
+        "operationAmount_amount": "31957.58",
+        "operationAmount_currency_name": "руб.",
+        "operationAmount_currency_code": "RUB",
+    }
+
+
+def test_get_string_for_report(csv_ex_list):
+    assert get_string_for_report(csv_ex_list[0]) == (
+        "05.09.2023 Перевод организации\n" "Счет **3391 - > Счет **9397\n" "Сумма: 16210 Sol\n"
+    )

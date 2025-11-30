@@ -2,6 +2,7 @@ import json
 import logging
 import os
 from pathlib import Path
+from src.widget import flatten_dict
 
 logger = logging.getLogger("utils")
 logger.setLevel(logging.DEBUG)
@@ -31,8 +32,18 @@ def read_transactions_file(data_file: str) -> list:
                     print(message)
                     return []
                 else:
+                    normal_data_list = []
+                    for item in data_list:
+                        if item:
+
+                            flatten_dic = flatten_dict(item)
+                            flatten_dic["amount"] = flatten_dic.pop("operationAmount_amount")
+                            flatten_dic["currency_name"] = flatten_dic.pop("operationAmount_currency_name")
+                            flatten_dic["currency_code"] = flatten_dic.pop("operationAmount_currency_code")
+                            print(flatten_dic)
+                            normal_data_list.append(flatten_dic)
                     logger.info(f"Получены данные о транзакциях из файла: {data_file}")
-                    return data_list
+                    return normal_data_list
             except json.JSONDecodeError:
                 message = f"Ошибка формата файла: {data_file}"
                 logger.error(message)
